@@ -14,7 +14,9 @@ import android.os.HandlerThread
 import android.view.Surface
 import android.view.TextureView
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.programminghut.realtime_object.R.id.mainTextOutput1
 import com.programminghut.realtime_object.ml.SsdMobilenetV11Metadata1
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageProcessor: ImageProcessor
     lateinit var bitmap:Bitmap
     lateinit var imageView: ImageView
+    lateinit var mainTextOutput1: TextView
     lateinit var cameraDevice: CameraDevice
     lateinit var handler: Handler
     lateinit var cameraManager: CameraManager
@@ -50,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         handler = Handler(handlerThread.looper)
 
         imageView = findViewById(R.id.imageView)
+        mainTextOutput1 = findViewById(R.id.mainTextOutput1)
 
         textureView = findViewById(R.id.textureView)
         textureView.surfaceTextureListener = object:TextureView.SurfaceTextureListener{
@@ -91,6 +95,10 @@ class MainActivity : AppCompatActivity() {
                         canvas.drawRect(RectF(locations.get(x+1)*w, locations.get(x)*h, locations.get(x+3)*w, locations.get(x+2)*h), paint)
                         paint.style = Paint.Style.FILL
                         canvas.drawText(labels.get(classes.get(index).toInt())+" "+fl.toString(), locations.get(x+1)*w, locations.get(x)*h, paint)
+
+                        mainTextOutput1.text = labels.get(classes.get(index).toInt())
+
+
                     }
                 }
 
